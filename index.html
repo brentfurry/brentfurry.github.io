@@ -9,10 +9,11 @@
         document.addEventListener("DOMContentLoaded", function () {
             // get all rows in the tbody
             var rows = document.querySelectorAll("tbody tr");
+            var sums = [];
 
-            // loop over each row
+            // First loop: Calculate sums
             rows.forEach(function (row) {
-                var cells = row.querySelectorAll("td:not(:first-child)"); // exclude the first cell with the name
+                var cells = row.querySelectorAll("td:not(:first-child)"); // exclude the first cell with the image
                 var sum = 0;
 
                 // loop over each cell to calculate the sum
@@ -27,8 +28,29 @@
 
                 // update the last cell with the sum
                 row.querySelector("td:last-child").textContent = sum;
+
+                // store the sum for later comparison
+                sums.push(sum);
             });
+
+            // Calculate the lowest score
+            var lowestScore = Math.min(...sums);
+            var highestScore = Math.max(...sums);
+
+            // Check if everyone has the same total score
+            if (lowestScore !== highestScore) {
+                // Second loop: Assign 🥞 emoji to the lowest scores
+                rows.forEach(function (row, rowIndex) {
+                    var totalCell = row.querySelector("td:last-child");
+                    if (sums[rowIndex] === lowestScore) {
+                        totalCell.setAttribute("title", lowestScore); // Setting tooltip
+                        totalCell.textContent = "🥞"; // Setting emoji and hiding score
+                    }
+                });
+            }
         });
+
+
 
     </script>
 </head>
@@ -73,7 +95,7 @@
             background-repeat: no-repeat;
         }
 
-        
+
 
         th,
         td {
@@ -235,7 +257,8 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td><img title="Marc" src="https://g.espncdn.com/lm-static/logo-packs/core/StarsAndFlames/stars_flames-3.svg">
+                    <td><img title="Marc"
+                            src="https://g.espncdn.com/lm-static/logo-packs/core/StarsAndFlames/stars_flames-3.svg">
                     </td>
                     <td></td>
                     <td></td>
