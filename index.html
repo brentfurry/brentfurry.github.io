@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // get all rows in the tbody
+            var rows = document.querySelectorAll("tbody tr");
+
+            // loop over each row
+            rows.forEach(function (row) {
+                var cells = row.querySelectorAll("td:not(:first-child)"); // exclude the first cell with the name
+                var sum = 0;
+
+                // loop over each cell to calculate the sum
+                cells.forEach(function (cell, index) {
+                    if (index !== cells.length - 1) { // exclude the last cell which is for Total
+                        var value = parseFloat(cell.textContent);
+                        if (!isNaN(value)) {
+                            sum += value;
+                        }
+                    }
+                });
+
+                // update the last cell with the sum
+                row.querySelector("td:last-child").textContent = sum;
+            });
+        });
+
+    </script>
+</head>
+
+<body>
+    <style type="text/css">
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            background: linear-gradient(45deg, #49a09d, #5f2c82);
+            font-family: sans-serif;
+            font-weight: 100;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 800px;
+            border-collapse: collapse;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        img,
+        .player-avatar {
+            height: 80px;
+            width: 80px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        td {
+            text-align: center;
+        }
+
+        th {
+            text-align: left;
+            text-wrap: nowrap;
+        }
+
+        td:first-child {
+            text-align: center;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        thead th {
+            background-color: #55608f;
+        }
+
+        tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        tbody td {
+            position: relative;
+        }
+
+        tbody td:hover:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: -9999px;
+            bottom: -9999px;
+            background-color: rgba(255, 255, 255, 0.2);
+            z-index: -1;
+        }
+
+        tbody tr td:first-child,
+        tbody tr td:last-child {
+            font-weight: bold;
+        }
+
+        tbody tr td:last-child {
+            background-color: rgba(50, 50, 50, 0.5);
+        }
+
+        th:last-child {
+            min-width: 30px;
+        }
+
+        @media only screen and (max-width: 950px) {
+
+            body,
+            html {
+                overflow: hidden;
+                height: 100%;
+            }
+
+            .container {
+                flex-direction: column;
+            }
+
+            .container table {
+                width: 90vh;
+                max-width: 90vh;
+                transform-origin: 50% 50%;
+                transform: rotate(90deg);
+                overflow: auto;
+            }
+
+            th {
+                max-width: 20px;
+                text-wrap: wrap;
+            }
+
+            img,
+            .player-avatar {
+                height: 40px;
+                width: 40px;
+            }
+        }
+    </style>
+
+    <div class="container">
+        <table class="tg">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Wk 1</th>
+                    <th>Wk 2</th>
+                    <th>Wk 3</th>
+                    <th>Wk 4</th>
+                    <th>Wk 5</th>
+                    <th>Wk 6</th>
+                    <th>Wk 7</th>
+                    <th>Wk 8</th>
+                    <th>Wk 9</th>
+                    <th>Wk 10</th>
+                    <th>Wk 11</th>
+                    <th>Wk 12</th>
+                    <th>Wk 13</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="player-avatar"
+                            style="background-image: url('https://cdn.socy.cloud/UUEE/v1/_20/202210/upload/generado_1666224741_lvkfnft7frcmcss7bnk50jpfqrmk_l.png');">
+                        </div>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Dusty</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><img src="https://g.espncdn.com/lm-static/logo-packs/core/StarsAndFlames/stars_flames-3.svg">
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><img
+                            src="https://g.espncdn.com/lm-static/logo-packs/ffl/BoneHeads-ToddDetwiler/BoneHeads-10.svg">
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><img src="https://www.alumnihall.com/prodimages/83561-DEFAULT-l.jpg"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
