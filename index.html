@@ -5,54 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hail Mary Hyzers</title>
     <script>
-
         document.addEventListener("DOMContentLoaded", function () {
-            // get all rows in the tbody
             var rows = document.querySelectorAll("tbody tr");
-            var sums = [];
 
-            // First loop: Calculate sums
+            // Mapping of emoji to score
+            const emojiScores = {
+                "🏆": 5
+            };
+
+            // Outer loop for each week's score (for each column excluding the first and last columns)
+            for (let week = 1; week <= 14; week++) {
+                let weeklyScores = [];
+
+                // Collect scores for the week
+                rows.forEach(function (row) {
+                    let cell = row.querySelectorAll("td")[week];
+                    let score = parseFloat(cell.textContent);
+
+                    if (!isNaN(score)) {
+                        weeklyScores.push(score);
+                    }
+                });
+
+                // Find highest score for the week
+                let highestScore = Math.max(...weeklyScores);
+
+                // Replace highest score with trophy emoji
+                rows.forEach(function (row) {
+                    let cell = row.querySelectorAll("td")[week];
+                    let score = parseFloat(cell.textContent);
+
+                    if (score === highestScore) {
+                        cell.textContent = "🏆";
+                    }
+                });
+            }
+
+            // Sum logic
+            var sums = [];
             rows.forEach(function (row) {
-                var cells = row.querySelectorAll("td:not(:first-child)"); // exclude the first cell with the image
+                var cells = row.querySelectorAll("td:not(:first-child)");
                 var sum = 0;
 
-                // loop over each cell to calculate the sum
                 cells.forEach(function (cell, index) {
-                    if (index !== cells.length - 1) { // exclude the last cell which is for Total
+                    if (index !== cells.length - 1) {
                         var value = parseFloat(cell.textContent);
                         if (!isNaN(value)) {
                             sum += value;
+                        } else if (emojiScores[cell.textContent]) {
+                            sum += emojiScores[cell.textContent]; // add the emoji score if found
                         }
                     }
                 });
 
-                // update the last cell with the sum
+                // Update the last cell with the sum
                 row.querySelector("td:last-child").textContent = sum;
-
-                // store the sum for later comparison
                 sums.push(sum);
             });
 
-            // Calculate the lowest score
+            // Logic to display 🥞 for the lowest sum
             var lowestScore = Math.min(...sums);
-            var highestScore = Math.max(...sums);
-
-            // Check if everyone has the same total score
-            if (lowestScore !== highestScore) {
-                // Second loop: Assign 🥞 emoji to the lowest scores
+            if (Math.min(...sums) !== Math.max(...sums)) {
                 rows.forEach(function (row, rowIndex) {
                     var totalCell = row.querySelector("td:last-child");
                     if (sums[rowIndex] === lowestScore) {
-                        totalCell.setAttribute("title", lowestScore); // Setting tooltip
-                        totalCell.textContent = "🥞"; // Setting emoji and hiding score
+                        totalCell.setAttribute("title", lowestScore);
+                        totalCell.textContent = "🥞";
                     }
                 });
             }
         });
 
-
-
     </script>
+
 </head>
 
 <body>
@@ -225,7 +250,7 @@
                             style="background-image: url('https://cdn.socy.cloud/UUEE/v1/_20/202210/upload/generado_1666224741_lvkfnft7frcmcss7bnk50jpfqrmk_l.png');">
                         </div>
                     </td>
-                    <td>4</td>
+                    <td title="139.18">4</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -246,7 +271,7 @@
                             style="background-image: url('https://library.sportingnews.com/2021-08/mahomes-patrick-08022019-getty-ftrjpg_yy8hfhcxpbcb1wjuo63oa9ip7.jpg');">
                         </div>
                     </td>
-                    <td>5</td>
+                    <td title="152.04">5</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -265,7 +290,7 @@
                     <td><img title="Marc"
                             src="https://g.espncdn.com/lm-static/logo-packs/core/StarsAndFlames/stars_flames-3.svg">
                     </td>
-                    <td>3</td>
+                    <td title="115.44">3</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -284,7 +309,7 @@
                     <td><img title="Ramon"
                             src="https://g.espncdn.com/lm-static/logo-packs/ffl/BoneHeads-ToddDetwiler/BoneHeads-10.svg">
                     </td>
-                    <td>2</td>
+                    <td title="114.36">2</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -301,7 +326,7 @@
                 </tr>
                 <tr>
                     <td><img title="Sean" src="https://www.alumnihall.com/prodimages/83561-DEFAULT-l.jpg"></td>
-                    <td>1</td>
+                    <td title="95.06">1</td>
                     <td></td>
                     <td></td>
                     <td></td>
