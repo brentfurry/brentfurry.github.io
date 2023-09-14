@@ -57,23 +57,22 @@
                         }
                     }
                 });
-
-                // Update the last cell with the sum
-                row.querySelector("td:last-child").textContent = sum;
                 sums.push(sum);
             });
 
-            // Logic to display 🥞 for the lowest sum
-            var lowestScore = Math.min(...sums);
-            if (Math.min(...sums) !== Math.max(...sums)) {
-                rows.forEach(function (row, rowIndex) {
-                    var totalCell = row.querySelector("td:last-child");
-                    if (sums[rowIndex] === lowestScore) {
-                        totalCell.setAttribute("title", lowestScore);
-                        totalCell.textContent = "🥞";
-                    }
-                });
-            }
+            // Determine rankings for sums
+            let sortedSums = Array.from(sums).sort((a, b) => b - a); // descending order
+            rows.forEach(function (row, rowIndex) {
+                var totalCell = row.querySelector("td:last-child");
+                let rank = sortedSums.indexOf(sums[rowIndex]) + 1; // +1 because arrays are 0-based
+
+                // If the sum is the lowest, we display the pancake emoji alongside the total.
+                if (rank === sortedSums.length) {
+                    totalCell.textContent = `${sums[rowIndex]} 🥞`;
+                } else {
+                    totalCell.textContent = `${sums[rowIndex]} (${rank})`; // display sum with rank in parenthesis
+                }
+            });
         });
 
     </script>
@@ -240,7 +239,7 @@
                     <th>Wk 11</th>
                     <th>Wk 12</th>
                     <th>Wk 13</th>
-                    <th>Total</th>
+                    <th>Total (🌱)</th>
                 </tr>
             </thead>
             <tbody>
