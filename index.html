@@ -5,73 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hail Mary Hyzers</title>
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var rows = document.querySelectorAll("tbody tr");
+        document.addEventListener("DOMContentLoaded", function () {
+            var rows = document.querySelectorAll("tbody tr");
 
-        // Mapping of emoji to score
-        const emojiScores = {
-            "🏆": 5
-        };
+            // Mapping of emoji to score
+            const emojiScores = {
+                "🏆": 5
+            };
 
-        for (let week = 1; week <= 14; week++) {
-            let weeklyScores = [];
+            let allTitleScores = [];
 
-            // Collect scores for the week
-            rows.forEach(function (row) {
-                let cell = row.querySelectorAll("td")[week];
-                let score = parseFloat(cell.textContent);
+            // Loop through each week to find weekly highest and collect all title scores
+            for (let week = 1; week <= 14; week++) {
+                let weeklyScores = [];
 
-                if (!isNaN(score)) {
-                    weeklyScores.push(score);
-                }
-            });
+                // Collect scores for the week based on title attributes
+                rows.forEach(function (row) {
+                    let cell = row.querySelectorAll("td")[week];
+                    let score = parseFloat(cell.title); // Using title attribute for score
 
-            // Find highest score for the week
-            let highestScore = Math.max(...weeklyScores);
-
-            // Replace highest score with trophy emoji
-            rows.forEach(function (row) {
-                let cell = row.querySelectorAll("td")[week];
-                let score = parseFloat(cell.textContent);
-
-                if (score === highestScore) {
-                    cell.textContent = "🏆";
-                }
-            });
-        }
-
-        var sums = [];
-        rows.forEach(function (row) {
-            var cells = row.querySelectorAll("td:not(:first-child)");
-            var sum = 0;
-
-            cells.forEach(function (cell, index) {
-                if (index !== cells.length - 1) {
-                    var value = parseFloat(cell.textContent);
-                    if (!isNaN(value)) {
-                        sum += value;
-                    } else if (emojiScores[cell.textContent]) {
-                        sum += emojiScores[cell.textContent];
+                    if (!isNaN(score)) {
+                        weeklyScores.push(score);
+                        allTitleScores.push(score); // Collecting all title scores
                     }
+                });
+
+                // Find highest score for the week
+                let highestScore = Math.max(...weeklyScores);
+
+                // Replace highest score with trophy emoji
+                rows.forEach(function (row) {
+                    let cell = row.querySelectorAll("td")[week];
+                    let score = parseFloat(cell.title);
+
+                    if (score === highestScore) {
+                        cell.textContent = "🏆";
+                    }
+                });
+            }
+
+            // Replace the cell with the highest title score across all weeks with 🍆💦
+            let highestTitleScore = Math.max(...allTitleScores);
+            rows.forEach(function (row) {
+                let cells = row.querySelectorAll("td:not(:first-child)");
+                cells.forEach(function(cell) {
+                    if (parseFloat(cell.title) === highestTitleScore) {
+                        cell.textContent = "🍆💦"; 
+                    }
+                });
+            });
+
+            // Sum and ranking logic
+            var sums = [];
+            rows.forEach(function (row) {
+                var cells = row.querySelectorAll("td:not(:first-child)");
+                var sum = 0;
+
+                cells.forEach(function (cell, index) {
+                    if (index !== cells.length - 1) {
+                        var value = parseFloat(cell.textContent);
+                        if (!isNaN(value)) {
+                            sum += value;
+                        } else if (emojiScores[cell.textContent]) {
+                            sum += emojiScores[cell.textContent];
+                        }
+                    }
+                });
+                sums.push(sum);
+            });
+
+            let sortedSums = Array.from(sums).sort((a, b) => b - a);
+            let lowestScore = sortedSums[sortedSums.length - 1];
+
+            rows.forEach(function (row, rowIndex) {
+                var totalCell = row.querySelector("td:last-child");
+                let rank = sortedSums.indexOf(sums[rowIndex]) + 1;
+
+                if (sums[rowIndex] === lowestScore) {
+                    totalCell.textContent = ` ${sums[rowIndex]} (🥞)`;
+                } else {
+                    totalCell.textContent = `${sums[rowIndex]} (${rank})`;
                 }
             });
-            sums.push(sum);
         });
-
-        let sortedSums = Array.from(sums).sort((a, b) => b - a);
-        let lowestScore = sortedSums[sortedSums.length - 1];
-
-        rows.forEach(function (row, rowIndex) {
-            var totalCell = row.querySelector("td:last-child");
-            let rank = sortedSums.indexOf(sums[rowIndex]) + 1;
-
-            if (sums[rowIndex] === lowestScore) {
-                totalCell.textContent = ` ${sums[rowIndex]} (🥞)`;
-            } else {
-                totalCell.textContent = `${sums[rowIndex]} (${rank})`;
-            }
-        });
-    });
 
     </script>
 
